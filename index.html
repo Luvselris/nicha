@@ -38,9 +38,100 @@
       color: var(--ink-main);
       min-height: 100vh;
       overflow-x: hidden;
+      position: relative;
+    }
+
+    .ambient-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .sparkle-orb {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.45;
+      filter: blur(0.5px);
+      animation: floatTwinkle var(--dur, 7s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+    }
+
+    .orb-1 {
+      width: 22px;
+      height: 22px;
+      top: 9%;
+      left: 8%;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #f8cedc 75%);
+      --dur: 6.5s;
+      --delay: 0s;
+    }
+
+    .orb-2 {
+      width: 14px;
+      height: 14px;
+      top: 22%;
+      right: 10%;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #d8f2eb 80%);
+      --dur: 5.5s;
+      --delay: -1.4s;
+    }
+
+    .orb-3 {
+      width: 28px;
+      height: 28px;
+      top: 46%;
+      left: 6%;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #fff1cc 80%);
+      --dur: 8s;
+      --delay: -2.6s;
+    }
+
+    .orb-4 {
+      width: 18px;
+      height: 18px;
+      top: 63%;
+      right: 8%;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #f7cedd 78%);
+      --dur: 7.2s;
+      --delay: -3.2s;
+    }
+
+    .orb-5 {
+      width: 12px;
+      height: 12px;
+      top: 78%;
+      left: 14%;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #d5efe8 82%);
+      --dur: 5.8s;
+      --delay: -0.8s;
+    }
+
+    .orb-6 {
+      width: 20px;
+      height: 20px;
+      top: 86%;
+      right: 15%;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #fff0ca 80%);
+      --dur: 7.6s;
+      --delay: -4s;
+    }
+
+    @keyframes floatTwinkle {
+      0%, 100% {
+        transform: translateY(0px) scale(0.95);
+        opacity: 0.25;
+      }
+      50% {
+        transform: translateY(-13px) scale(1.12);
+        opacity: 0.65;
+      }
     }
 
     .page-wrap {
+      position: relative;
+      z-index: 1;
       max-width: 440px;
       margin: 0 auto;
       padding: 16px 14px 56px;
@@ -90,6 +181,13 @@
       margin-top: 10px;
     }
 
+    .shop-bio {
+      margin-top: 5px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-muted);
+    }
+
     .music-toggle {
       margin-top: 10px;
       padding: 6px 16px;
@@ -100,6 +198,29 @@
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
+    }
+
+    .note-box-title {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--ink-main);
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .note-box-inner {
+      background-color: var(--inner-panel);
+      border: 1.5px solid var(--border-pastel);
+      border-radius: 20px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .note-slip-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 14px;
     }
 
     .pay-heading {
@@ -252,31 +373,24 @@
       flex-shrink: 0;
     }
 
-    .note-box-title {
-      font-size: 14.5px;
-      font-weight: 700;
-      color: var(--ink-main);
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    .note-box-inner {
-      background-color: var(--inner-panel);
-      border: 1.5px solid var(--border-pastel);
-      border-radius: 20px;
-      padding: 12px;
-      text-align: center;
-    }
-
-    .note-slip-img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 14px;
+    @media (prefers-reduced-motion: reduce) {
+      .sparkle-orb {
+        animation: none;
+        opacity: 0.35;
+      }
     }
   </style>
 </head>
 <body>
+
+  <div class="ambient-layer" aria-hidden="true">
+    <span class="sparkle-orb orb-1"></span>
+    <span class="sparkle-orb orb-2"></span>
+    <span class="sparkle-orb orb-3"></span>
+    <span class="sparkle-orb orb-4"></span>
+    <span class="sparkle-orb orb-5"></span>
+    <span class="sparkle-orb orb-6"></span>
+  </div>
 
   <audio
     id="bgMusic"
@@ -299,7 +413,20 @@
         alt="how to pay nicha profile"
       >
       <div class="shop-name">how to pay nicha</div>
+      <div class="shop-bio">line : @505qjctm</div>
       <button type="button" class="music-toggle" id="musicBtn" onclick="toggleMusic(event)">play music</button>
+    </div>
+
+    <!-- ป้ายอ่านก่อนโอน มาก่อนช่องทางการชำระเงิน -->
+    <div class="outer-card">
+      <div class="note-box-title">อ่านก่อนโอน</div>
+      <div class="note-box-inner">
+        <img
+          class="note-slip-img"
+          src="https://files.catbox.moe/nt38j0.jpeg"
+          alt="อ่านก่อนโอน"
+        >
+      </div>
     </div>
 
     <!-- ช่องทางการชำระเงิน 2 ช่อง -->
@@ -351,18 +478,6 @@
             <button type="button" class="copy-note-btn" id="copyNoteBtn" onclick="copySlipNote(event)">คัดลอก</button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- กล่องโน้ตสลิป -->
-    <div class="outer-card">
-      <div class="note-box-title">โน้ตสลิป</div>
-      <div class="note-box-inner">
-        <img
-          class="note-slip-img"
-          src="https://files.catbox.moe/nt38j0.jpeg"
-          alt="โน้ตสลิป"
-        >
       </div>
     </div>
   </div>
