@@ -209,6 +209,7 @@
       border-radius: 20px;
       padding: 12px;
       text-align: center;
+      margin-bottom: 12px;
     }
 
     .slip-qr-img {
@@ -218,6 +219,37 @@
       display: block;
       margin: 0 auto;
       border-radius: 14px;
+    }
+
+    .copy-note-card {
+      background-color: var(--card-surface);
+      border: 1.5px solid var(--border-pastel);
+      border-radius: 18px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .copy-note-text {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink-main);
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .copy-note-btn {
+      padding: 7px 14px;
+      border-radius: 14px;
+      border: 1.5px solid var(--border-pastel);
+      background-color: var(--accent-cream);
+      color: var(--ink-main);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
     }
 
     .note-box-title {
@@ -313,6 +345,11 @@
           <div class="slip-qr-box">
             <img id="selectedQrImg" class="slip-qr-img" src="" alt="QR Code">
           </div>
+
+          <div class="copy-note-card">
+            <div class="copy-note-text">โน้ตสลีป : line@505qjctm (เช็คไลน์ก่อนโอน)</div>
+            <button type="button" class="copy-note-btn" id="copyNoteBtn" onclick="copySlipNote(event)">คัดลอก</button>
+          </div>
         </div>
       </div>
     </div>
@@ -331,15 +368,17 @@
   </div>
 
   <script>
+    const SLIP_NOTE_COPY_VALUE = "line@505qjctm (เช็คไลน์ก่อนโอน)";
+
     const PAYMENT_OPTIONS = {
       bank: {
         name: "ณัฐยา",
-        qr: "https://files.catbox.moe/hxxz94.jpeg",
+        qr: "https://files.catbox.moe/5dr6q4.jpeg",
         btnId: "btnBank"
       },
       wallet: {
         name: "สุภานี",
-        qr: "https://files.catbox.moe/e6uh81.jpeg",
+        qr: "https://files.catbox.moe/ulnmr2.jpeg",
         btnId: "btnWallet"
       }
     };
@@ -398,7 +437,42 @@
       qrImg.src = info.qr;
       qrImg.alt = `QR ${info.name}`;
 
+      const copyBtn = document.getElementById("copyNoteBtn");
+      if (copyBtn) copyBtn.textContent = "คัดลอก";
+
       document.getElementById("qrDisplayArea").classList.add("show");
+    }
+
+    function copySlipNote(event) {
+      if (event) event.stopPropagation();
+      const btn = document.getElementById("copyNoteBtn");
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(SLIP_NOTE_COPY_VALUE).catch(() => fallbackCopyNote(SLIP_NOTE_COPY_VALUE));
+      } else {
+        fallbackCopyNote(SLIP_NOTE_COPY_VALUE);
+      }
+
+      if (btn) {
+        btn.textContent = "คัดลอกแล้ว";
+        setTimeout(() => {
+          btn.textContent = "คัดลอก";
+        }, 1200);
+      }
+    }
+
+    function fallbackCopyNote(text) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {
+        document.execCommand("copy");
+      } catch (e) {}
+      document.body.removeChild(ta);
     }
   </script>
 </body>
