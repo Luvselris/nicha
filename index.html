@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <title>how to pay nicha</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #fceef2;
+      --bg-soft: #fff8fa;
+      --card-surface: #ffffff;
+      --inner-panel: #fdf2f6;
+      --border-pastel: #f1d4de;
+      --accent-pink: #f6cad9;
+      --accent-mint: #d8f2eb;
+      --accent-cream: #fff3d6;
+      --ink-main: #5c4952;
+      --ink-muted: #8f7782;
+      --shadow-pastel: 0 8px 24px rgba(214, 158, 178, 0.16);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', 'Mitr', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: linear-gradient(180deg, #fdf3f6 0%, #f5f9f8 55%, #fceef2 100%);
+      color: var(--ink-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .page-wrap {
+      max-width: 440px;
+      margin: 0 auto;
+      padding: 16px 14px 56px;
+    }
+
+    .outer-card {
+      background-color: var(--card-surface);
+      border: 2px solid var(--border-pastel);
+      border-radius: 26px;
+      padding: 16px;
+      box-shadow: var(--shadow-pastel);
+      margin-bottom: 14px;
+    }
+
+    .profile-card {
+      text-align: center;
+      padding-bottom: 20px;
+    }
+
+    .banner-photo {
+      width: 100%;
+      height: 138px;
+      object-fit: cover;
+      border-radius: 18px;
+      display: block;
+      margin-bottom: -44px;
+      border: 2px solid var(--card-surface);
+      background-color: var(--bg-soft);
+    }
+
+    .avatar-photo {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3.5px solid var(--card-surface);
+      background-color: var(--bg-soft);
+      position: relative;
+      z-index: 2;
+      box-shadow: var(--shadow-pastel);
+    }
+
+    .shop-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ink-main);
+      margin-top: 10px;
+    }
+
+    .music-toggle {
+      margin-top: 10px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      border: 1.5px solid var(--border-pastel);
+      background-color: var(--accent-cream);
+      color: var(--ink-main);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .pay-heading {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink-main);
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .pay-outer-box {
+      background-color: var(--inner-panel);
+      border: 1.5px solid var(--border-pastel);
+      border-radius: 20px;
+      padding: 14px;
+    }
+
+    .pay-grid-two {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .method-tile {
+      background-color: var(--card-surface);
+      border: 2px solid var(--border-pastel);
+      border-radius: 22px;
+      padding: 16px 10px;
+      min-height: 126px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(214, 158, 178, 0.12);
+      transition: transform 0.14s ease, background-color 0.14s ease, border-color 0.14s ease;
+    }
+
+    .method-tile:active {
+      transform: scale(0.97);
+    }
+
+    .method-tile.active {
+      background-color: var(--accent-mint);
+      border-color: #9fd6c7;
+    }
+
+    .method-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      background-color: var(--bg-soft);
+      border: 1.5px solid var(--border-pastel);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-main);
+    }
+
+    .method-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .method-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink-main);
+      text-align: center;
+    }
+
+    .qr-display-area {
+      margin-top: 14px;
+      display: none;
+    }
+
+    .qr-display-area.show {
+      display: block;
+    }
+
+    .name-card {
+      background-color: var(--card-surface);
+      border: 1.5px solid var(--border-pastel);
+      border-radius: 18px;
+      padding: 12px 14px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .name-caption {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-muted);
+      margin-bottom: 2px;
+    }
+
+    .name-person {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink-main);
+    }
+
+    .slip-qr-box {
+      background-color: var(--card-surface);
+      border: 1.5px solid var(--border-pastel);
+      border-radius: 20px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .slip-qr-img {
+      width: 100%;
+      max-width: 260px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 14px;
+    }
+
+    .note-box-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink-main);
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .note-box-inner {
+      background-color: var(--inner-panel);
+      border: 1.5px solid var(--border-pastel);
+      border-radius: 20px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .note-slip-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <audio
+    id="bgMusic"
+    loop
+    preload="auto"
+    src="https://file.garden/asG8Gt-rqWIpi3II/BUTTERBEAR%20-%20%E0%B8%99%E0%B9%88%E0%B8%B2%E0%B8%A3%E0%B8%B1%E0%B8%81%E0%B8%A1%E0%B8%B1%E0%B9%89%E0%B8%A2%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B8%A3%E0%B8%B9%E0%B9%89%20(%20Narak%20Mhai%20Mai%20Roo%20)%20Official%20MV.mp3"
+  ></audio>
+
+  <div class="page-wrap">
+    <!-- ส่วนโปรไฟล์ร้าน -->
+    <div class="outer-card profile-card">
+      <img
+        class="banner-photo"
+        src="https://files.catbox.moe/hjty7b.png"
+        alt="how to pay nicha banner"
+      >
+      <img
+        class="avatar-photo"
+        src="https://files.catbox.moe/uktgnw.png"
+        alt="how to pay nicha profile"
+      >
+      <div class="shop-name">how to pay nicha</div>
+      <button type="button" class="music-toggle" id="musicBtn" onclick="toggleMusic(event)">play music</button>
+    </div>
+
+    <!-- ช่องทางการชำระเงิน 2 ช่อง -->
+    <div class="outer-card">
+      <div class="pay-heading">ช่องทางการชำระเงิน</div>
+
+      <div class="pay-outer-box">
+        <div class="pay-grid-two">
+          <button type="button" class="method-tile" id="btnBank" onclick="selectPayment('bank')">
+            <div class="method-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 10h18"></path>
+                <path d="M12 3L2 9h20L12 3z"></path>
+                <path d="M5 10v8"></path>
+                <path d="M9.5 10v8"></path>
+                <path d="M14.5 10v8"></path>
+                <path d="M19 10v8"></path>
+                <path d="M2 18h20"></path>
+                <path d="M2 21h20"></path>
+              </svg>
+            </div>
+            <span class="method-label">ธนาคาร</span>
+          </button>
+
+          <button type="button" class="method-tile" id="btnWallet" onclick="selectPayment('wallet')">
+            <div class="method-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"></path>
+                <path d="M16 3H5a2 2 0 0 0-2 2v2"></path>
+                <circle cx="17" cy="13.5" r="1.2" fill="currentColor"></circle>
+              </svg>
+            </div>
+            <span class="method-label">วอเลต</span>
+          </button>
+        </div>
+
+        <div class="qr-display-area" id="qrDisplayArea">
+          <div class="name-card">
+            <div class="name-caption">name</div>
+            <div class="name-person" id="selectedName"></div>
+          </div>
+
+          <div class="slip-qr-box">
+            <img id="selectedQrImg" class="slip-qr-img" src="" alt="QR Code">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- กล่องโน้ตสลิป -->
+    <div class="outer-card">
+      <div class="note-box-title">โน้ตสลิป</div>
+      <div class="note-box-inner">
+        <img
+          class="note-slip-img"
+          src="https://files.catbox.moe/nt38j0.jpeg"
+          alt="โน้ตสลิป"
+        >
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const PAYMENT_OPTIONS = {
+      bank: {
+        name: "ณัฐยา",
+        qr: "https://files.catbox.moe/hxxz94.jpeg",
+        btnId: "btnBank"
+      },
+      wallet: {
+        name: "สุภานี",
+        qr: "https://files.catbox.moe/e6uh81.jpeg",
+        btnId: "btnWallet"
+      }
+    };
+
+    const audioEl = document.getElementById("bgMusic");
+    const musicBtn = document.getElementById("musicBtn");
+    let musicStarted = false;
+
+    function refreshMusicButton() {
+      musicBtn.textContent = audioEl.paused ? "play music" : "playing music";
+    }
+
+    function startMusicOnTouch() {
+      if (!audioEl) return;
+      if (audioEl.paused) {
+        audioEl.play().then(() => {
+          musicStarted = true;
+          refreshMusicButton();
+        }).catch(() => {});
+      } else {
+        musicStarted = true;
+        refreshMusicButton();
+      }
+    }
+
+    function toggleMusic(event) {
+      if (event) event.stopPropagation();
+      if (audioEl.paused) {
+        audioEl.play().then(() => {
+          musicStarted = true;
+          refreshMusicButton();
+        }).catch(() => {});
+      } else {
+        audioEl.pause();
+        refreshMusicButton();
+      }
+    }
+
+    ["pointerdown", "touchstart", "click", "scroll", "keydown"].forEach(evName => {
+      document.addEventListener(evName, () => {
+        if (!musicStarted) {
+          startMusicOnTouch();
+        }
+      }, { passive: true });
+    });
+
+    function selectPayment(type) {
+      const info = PAYMENT_OPTIONS[type];
+      if (!info) return;
+
+      document.getElementById("btnBank").classList.toggle("active", type === "bank");
+      document.getElementById("btnWallet").classList.toggle("active", type === "wallet");
+
+      document.getElementById("selectedName").textContent = info.name;
+      const qrImg = document.getElementById("selectedQrImg");
+      qrImg.src = info.qr;
+      qrImg.alt = `QR ${info.name}`;
+
+      document.getElementById("qrDisplayArea").classList.add("show");
+    }
+  </script>
+</body>
+</html>
